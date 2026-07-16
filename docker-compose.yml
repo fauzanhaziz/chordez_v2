@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # Service 1: Database MongoDB
   database:
@@ -17,6 +19,8 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:           # <--- INI KUNCINYA BRO!
+      - .env            # Supaya backend bisa baca GEMINI_API_KEY
     depends_on:
       - database
 
