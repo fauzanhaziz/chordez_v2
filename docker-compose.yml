@@ -1,0 +1,34 @@
+services:
+  # Service 1: Database MongoDB
+  database:
+    container_name: chordez-db
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=rahasia123
+    volumes:
+      - mongo-data:/data/db
+
+  # Service 2: Backend FastAPI
+  backend:
+    container_name: chordez-backend
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  # Service 3: Frontend Next.js
+  frontend:
+    container_name: chordez-frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+# Volume eksternal agar data MongoDB aman dan persisten
+volumes:
+  mongo-data:
